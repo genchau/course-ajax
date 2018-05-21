@@ -34,6 +34,15 @@ body {
     text-align: center;
 }
 
+.masthead h2 {
+    color: #F4D03F;
+    font-weight: normal;
+    font-size: 14px;
+    margin: 0;
+    margin-bottom: 0.2em;
+    text-align: center;
+}
+
 /*** Search Form ***/
 #search-form {
     display: flex;
@@ -68,7 +77,7 @@ body {
     margin-top: 2em;
 }
 
-/*** Image Styline ***/
+/*** Image Styling ***/
 figure {
     margin: 0;
     margin-bottom: 2em;

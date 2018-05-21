@@ -1,0 +1,63 @@
+(function () {
+  const form = document.querySelector("#search-form");
+  const searchField = document.querySelector("#search-keyword");
+  let searchedForText;
+  const responseContainer = document.querySelector("#response-container");
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    responseContainer.innerHTML = "";
+    searchedForText = searchField.value;
+
+    const imgRequest = new XMLHttpRequest();
+    imgRequest.onload = addImage;
+    imgRequest.onerror = function (err) {
+      requestError(err, "image");
+    };
+    let getRequest = `https://api.unsplash.com/search/photos?page=1&amp;query=${searchedForText}`;
+
+    imgRequest.open("GET", getRequest);
+    imgRequest.setRequestHeader('Authorization', 'Client-ID 49fafd545b4229485140ae2c2a20916dae8a6def2684760c7010044e24104cbe');
+    imgRequest.send();
+
+    function addImage(){
+      let htmlContent = "";
+      const data = JSON.parse(this.responseText);
+      const firstImage = data.results[0];
+
+      if (data &amp;&amp; data.results &amp;&amp; data.results[0]) {
+        htmlContent = `&lt;figure&gt;
+          &lt;img src="${firstImage.urls.regular}" alts="${searchedForText}"&gt;
+          &lt;figcaption&gt;${searchedForText} by ${firstImage.user.name}&lt;figcaption&gt;
+        &lt;/figure&gt;`;
+      } else {
+        htmlContent = "&lt;div class='error-no-image'&gt;No images available&lt;/div&gt;";
+      }
+      responseContainer.insertAdjacentHTML("afterbegin", htmlContent);
+    }
+
+    function addArticles () {
+      let htmlContent = "";
+      const data = JSON.parse(this.responseText);
+      const firstArticle = data.response.docs[0];
+
+      if (data &amp;&amp; data.response &amp;&amp; data.response.docs.length &gt; 1) {
+        htmlContent = "&lt;ul&gt;" + data.response.docs.map(article =&gt; `&lt;li class='article'&gt;
+          &lt;h2&gt;&lt;a href='${article.web_url}'&gt;${article.headline.main}&lt;/a&gt;&lt;/h2&gt;
+          &lt;p&gt;${article.snippet}&lt;/p&gt;
+          &lt;/li&gt;`
+        ).join("") + "&lt;/ul&gt;";
+      } else {
+        htmlContent = "&lt;div class='error-no-articles'&gt;No articles available&lt;/div&gt;";
+      }
+
+      responseContainer.insertAdjacentHTML("beforeend", htmlContent);
+    }
+
+    const articleRequest = new XMLHttpRequest();
+    articleRequest.onload = addArticles;
+    articleRequest.open("GET", `http://api.nytimes.com/svc/search/v2/articlesearch.json?q=${searchedForText}&api-key=e35e661abcd54895b4b2842465fb67a0`);
+    articleRequest.send();
+
+  });
+})();
