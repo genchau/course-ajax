@@ -60,7 +60,7 @@
 		// Searches NYTIMES.com for an article and adds it to the web page.
 		const articleRequest = new XMLHttpRequest();
 		articleRequest.onload = addArticles;
-		articleRequest.open('GET', `http://api.nytimes.com/svc/search/v2/articlesearch.json?q=${searchedForText}&api-key=e35e661abcd54895b4b2842465fb67a0`);
+		articleRequest.open('GET', `https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${searchedForText}&api-key=e35e661abcd54895b4b2842465fb67a0`);
 		articleRequest.send();
 
     });
