@@ -67,7 +67,7 @@
     	});
 
     	$.ajax({
-    		url: `http://api.nytimes.com/svc/search/v2/articlesearch.json?q=${searchedForText}&api-key=e35e661abcd54895b4b2842465fb67a0`,
+    		url: `https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${searchedForText}&api-key=e35e661abcd54895b4b2842465fb67a0`,
     	}).done(addArticles)
     	.fail(function(err) {
     		console.log("GC Error getting data from NY Times");
